@@ -1,0 +1,10 @@
+NEXORA · ACCESO PROVISIONAL DE FORMACIÓN
+
+URL: http://127.0.0.1:8081
+Usuario: operador
+Contraseña: soporte2026
+
+Utiliza estas credenciales para explorar el portal de empleados.
+No se proporcionan claves de Dirección.
+
+Entorno ficticio de formación · SQL Injection · Motor MySQL 8.4

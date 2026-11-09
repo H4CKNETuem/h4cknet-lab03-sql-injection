@@ -1,0 +1,52 @@
+name: h4cknet-lab03-mysql
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: "solo-lab-root-8sJ2m"
+      MYSQL_DATABASE: "nexora"
+      MYSQL_USER: "nexora_app"
+      MYSQL_PASSWORD: "solo-lab-lectura-2026"
+    volumes:
+      - nexora_mysql_data:/var/lib/mysql
+      - ./db/init/01_nexora.sql:/docker-entrypoint-initdb.d/01_nexora.sql:ro
+    healthcheck:
+      # No basta con mysqladmin ping: esperamos también a que se hayan creado las tablas.
+      test:
+        - CMD-SHELL
+        - >-
+          MYSQL_PWD="$$MYSQL_PASSWORD" mysql --protocol=tcp -h 127.0.0.1
+          -u "$$MYSQL_USER" "$$MYSQL_DATABASE" --batch --skip-column-names
+          -e "SELECT COUNT(*) FROM empleados" >/dev/null 2>&1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: "no"
+
+  portal:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8081:8080"
+    environment:
+      LAB_SESSION_SECRET: "h4cknet-lab03-mysql-local-2026"
+      DB_HOST: "db"
+      DB_NAME: "nexora"
+      DB_USER: "nexora_app"
+      DB_PASSWORD: "solo-lab-lectura-2026"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 64
+    mem_limit: 256m
+    restart: "no"
+
+volumes:
+  nexora_mysql_data:
