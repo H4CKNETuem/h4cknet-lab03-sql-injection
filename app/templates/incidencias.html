@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}
+<span class="eyebrow">OPERACIONES / SOPORTE</span><h1>Incidencias</h1><p class="muted">Consulta el estado de las solicitudes registradas por los distintos equipos.</p>
+<section class="card search-card"><form id="busqueda" action="{{ url_for('buscar_incidencias') }}" method="post">
+  <label for="buscar">Buscar incidencias</label><div class="search-row"><input type="search" id="buscar" name="buscar" placeholder="Asunto de la incidencia" autocomplete="off"><button type="submit">Buscar</button></div>
+</form></section>
+<section class="card result-card"><div class="table-head"><h2>Listado de solicitudes</h2><span class="muted small">Actualización automática</span></div><div id="resultados">{% include 'partials/resultados.html' %}</div></section>
+<script src="{{ url_for('static', filename='search.js') }}" defer></script>
+{% endblock %}

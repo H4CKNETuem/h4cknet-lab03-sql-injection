@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<div class="eyebrow">PANEL DE TRABAJO</div><h1>Buenos días, {{ session['nombre'].split(' ')[0] }}.</h1><p class="muted">Aquí tienes un resumen de la actividad interna.</p>
+<div class="stats"><div class="card"><span class="subdued">Incidencias registradas</span><strong>{{total}}</strong></div><div class="card"><span class="subdued">Pendientes de revisión</span><strong>{{abiertas}}</strong></div><div class="card"><span class="subdued">Estado de la plataforma</span><strong class="green">Operativa</strong></div></div>
+<section class="card"><h2>Actividad reciente</h2><p>El equipo de Operaciones ha actualizado la planificación semanal.</p><p>La documentación interna estará disponible en el área habitual.</p><p class="muted">Para revisar solicitudes y tareas, visita <a href="{{ url_for('incidencias') }}">Incidencias</a>.</p></section>
+{% endblock %}

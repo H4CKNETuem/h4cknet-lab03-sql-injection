@@ -1,0 +1,3 @@
+{% if rows %}<div class="results"><table><thead><tr><th>Nº</th><th>Asunto</th><th>Área</th><th>Estado</th></tr></thead>
+<tbody>{% for item in rows %}<tr><td>#{{item['id']}}</td><td>{{item['asunto']}}</td><td>{{item['area']}}</td><td><span class="status">{{item['estado']}}</span></td></tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="notice">No hay incidencias que coincidan con la búsqueda.</p>{% endif %}

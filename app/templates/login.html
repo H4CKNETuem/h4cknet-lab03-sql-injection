@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<div class="login-layout"><div class="welcome">
+  <span class="eyebrow">NEXORA / ACCESO CORPORATIVO</span><h1>El trabajo de cada día, en un solo lugar.</h1><p>Acceso al panel interno de soporte, documentación e incidencias.</p>
+  <div class="muted-line">Portal de empleados · Versión 2.4</div>
+</div><section class="card login-box"><span class="eyebrow">IDENTIFICACIÓN</span><h2>Iniciar sesión</h2><p class="muted">Introduce tus credenciales corporativas.</p>
+  {% if error %}<p class="notice error">{{error}}</p>{% endif %}
+  <form method="post" action="{{ url_for('login') }}">
+    <label for="usuario">Usuario</label><input id="usuario" name="usuario" autocomplete="username" required>
+    <label for="password">Contraseña</label><input id="password" type="password" name="password" autocomplete="current-password" required>
+    <button type="submit">Acceder</button>
+  </form>
+  <p class="small subdued">Si necesitas asistencia, contacta con Sistemas.</p>
+</section></div>
+{% endblock %}

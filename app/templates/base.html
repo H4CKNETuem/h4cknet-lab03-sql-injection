@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} | Nexora</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top"><div class="top-inner"><a class="brand" href="{{ url_for('inicio') }}"><span class="mark">N</span> NEXORA <span class="subbrand">WORKSPACE</span></a>
+  {% if session.get('usuario') %}<div class="account"><span>{{ session['nombre'] }} · {{ session['rol']|capitalize }}</span> <a href="{{ url_for('salir') }}">Cerrar sesión</a></div>{% endif %}</div></header>
+  {% if session.get('usuario') %}
+  <nav class="nav"><div class="nav-inner">
+    <a href="{{ url_for('inicio') }}">Inicio</a><a href="{{ url_for('incidencias') }}">Incidencias</a><a href="{{ url_for('documentacion') }}">Documentación</a><a href="{{ url_for('equipo') }}">Equipo</a><a href="{{ url_for('direccion') }}">Dirección</a>
+  </div></nav>
+  {% endif %}
+  <main class="container">{% block content %}{% endblock %}</main>
+  <footer class="footer">© 2026 Nexora · Portal interno de operaciones</footer>
+</body>
+</html>

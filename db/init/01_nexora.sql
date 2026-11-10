@@ -1,0 +1,66 @@
+-- H4CKNET LAB 03: NEXORA  MySQL 8.4 (solo entorno de prcticas local)
+-- Este fichero se ejecuta automticamente la PRIMERA vez que se crea el volumen MySQL.
+USE nexora;
+
+-- Los textos acentuados se introducen como bytes UTF-8 con CONVERT(0x... USING utf8mb4).
+-- De ese modo la importacion NO depende del juego de caracteres del cliente mysql.
+SET NAMES utf8mb4;
+
+CREATE TABLE empleados (
+  id INT PRIMARY KEY,
+  usuario VARCHAR(100) NOT NULL UNIQUE,
+  nombre VARCHAR(150) NOT NULL,
+  rol VARCHAR(30) NOT NULL,
+  password_hash CHAR(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE incidencias (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  asunto VARCHAR(255) NOT NULL,
+  area VARCHAR(100) NOT NULL,
+  estado VARCHAR(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE notas_internas (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  codigo VARCHAR(160) NOT NULL,
+  nota TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO empleados (id,usuario,nombre,rol,password_hash) VALUES
+(1, 'admin', CONVERT(0x4C7563C3AD612056616C64C3A973 USING utf8mb4), 'direccion', 'c1184884d6dc27c9216848c991c8b3ea5bb51e7598e2d5d86b6f92fb6a605366'),
+(2, 'operador', CONVERT(0xC3816C657820546F72726573 USING utf8mb4), 'empleado', 'd4fd13927a4eba608a10255adfcbfc13dcb08c60ebe0bf9ebbe9dcba8a888a2b'),
+(3, 'marta', CONVERT(0x4D617274612050C3A972657A USING utf8mb4), 'empleado', 'bf4f6585de35f1832c649deab29926bb93ff570f2a4c114b1362363683116bff');
+
+INSERT INTO incidencias (asunto,area,estado) VALUES
+(CONVERT(0x526576697369C3B36E20646520696D707265736F72612064656C20616C6D6163C3A96E USING utf8mb4), 'Operaciones', 'Cerrada'),
+('Cambio de monitor solicitado', 'Sistemas', 'En curso'),
+('Acceso al calendario de turnos', 'RR. HH.', 'Abierta'),
+(CONVERT(0x496E7374616C616369C3B36E2064656C20636C69656E74652056504E USING utf8mb4), 'Sistemas', 'Cerrada'),
+(CONVERT(0x4572726F72206465207065726D69736F7320656E20646F63756D656E74616369C3B36E USING utf8mb4), 'Sistemas', 'En curso'),
+('Alta de nuevo trabajador', 'RR. HH.', 'Abierta'),
+(CONVERT(0x536F6C696369747564206465206C6963656E636961206465206564696369C3B36E USING utf8mb4), 'Compras', 'Cerrada'),
+('Problema con el proyector', 'Sistemas', 'Cerrada'),
+('Acceso a carpeta compartida', 'Operaciones', 'En curso'),
+(CONVERT(0x41637475616C697A616369C3B36E20646520696E76656E746172696F USING utf8mb4), CONVERT(0x416C6D6163C3A96E USING utf8mb4), 'Abierta'),
+(CONVERT(0x43616D62696F20646520657874656E7369C3B36E2074656C6566C3B36E696361 USING utf8mb4), 'Operaciones', 'Cerrada'),
+('Duplicidad de referencia de factura', CONVERT(0x41646D696E69737472616369C3B36E USING utf8mb4), 'Abierta'),
+(CONVERT(0x52656E6F76616369C3B36E206465207461726A657461732064652061636365736F USING utf8mb4), CONVERT(0x52656365706369C3B36E USING utf8mb4), 'En curso'),
+('No llega correo de notificaciones', 'Sistemas', 'Cerrada'),
+(CONVERT(0x536F6C696369747564206465207465636C61646F206572676F6EC3B36D69636F USING utf8mb4), 'Compras', 'Abierta'),
+(CONVERT(0x526576697369C3B36E206465206361626C6561646F2064652073616C61 USING utf8mb4), 'Mantenimiento', 'En curso'),
+('Error al cargar plantilla de informes', 'Operaciones', 'Cerrada'),
+('Permiso de lectura para proyecto', 'RR. HH.', 'Abierta'),
+(CONVERT(0x53696E63726F6E697A616369C3B36E2064656C206469726563746F72696F20696E7465726E6F USING utf8mb4), 'Sistemas', 'En curso'),
+('Solicitud de cambio de despacho', CONVERT(0x41646D696E69737472616369C3B36E USING utf8mb4), 'Cerrada'),
+(CONVERT(0x46616C6C6F20656E20656C207465726D696E616C2064652072656365706369C3B36E USING utf8mb4), CONVERT(0x52656365706369C3B36E USING utf8mb4), 'Abierta'),
+(CONVERT(0x496D707265736F72612073696E20636F6E657869C3B36E USING utf8mb4), 'Operaciones', 'Cerrada'),
+(CONVERT(0x52656E6F76616369C3B36E20646520706F7274C3A174696C6573 USING utf8mb4), 'Compras', 'En curso'),
+('Acceso de proveedores al edificio', CONVERT(0x52656365706369C3B36E USING utf8mb4), 'Abierta');
+
+INSERT INTO notas_internas (codigo,nota) VALUES ('H4CKNET{UNION_SELECT_NEXORA}', CONVERT(0x526567697374726F20696E7465726E6F206465206D696772616369C3B36E3A206461746F2072657365727661646F USING utf8mb4));
+
+-- El usuario de la web solo puede LEER. No permitimos modificar datos mediante SQLi.
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'nexora_app'@'%';
+GRANT SELECT ON nexora.* TO 'nexora_app'@'%';
+FLUSH PRIVILEGES;
